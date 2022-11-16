@@ -1,18 +1,59 @@
+plugins {
+	id "com.diffplug.spotless" version "${spotless}"
+}
+
 allprojects {
-    apply plugin: 'java'
-    group 'com.shankhadeepghoshal.learnkafka'
-    version '1.0'
+	apply plugin: 'java'
+	apply plugin: 'groovy'
+	apply plugin: 'com.diffplug.spotless'
 
-    repositories {
-        mavenCentral()
-    }
+	sourceCompatibility = 1.18
+	targetCompatibility = 1.18
 
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-    }
+	group 'com.shankhadeepghoshal.learnkafka'
+	version '1.0'
 
-    test {
-        useJUnitPlatform()
-    }
+	repositories {
+		mavenCentral()
+	}
+
+	spotless {
+		java {
+			importOrder()
+			removeUnusedImports()
+			trimTrailingWhitespace()
+			endWithNewline()
+			googleJavaFormat('1.15.0')
+					.reflowLongStrings()
+					.groupArtifact("com.google.googlejavaformat:google-java-format")
+		}
+		groovyGradle {
+			target '*.gradle' // default target of groovyGradle
+			greclipse()
+		}
+	}
+
+	dependencies {
+		implementation "org.springframework.kafka:spring-kafka:${spring_kafka}"
+
+		implementation "org.projectlombok:lombok:${lombok}"
+		annotationProcessor "org.projectlombok:lombok:${lombok}"
+
+		testImplementation "org.junit.jupiter:junit-jupiter-api:${junit}"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit}"
+
+		testImplementation "org.springframework.kafka:spring-kafka-test:${spring_kafka_test}"
+		testImplementation "org.testcontainers:kafka:${testcontainers_kafka}"
+
+		testImplementation "org.projectlombok:lombok:${lombok}"
+		testAnnotationProcessor "org.projectlombok:lombok:${lombok}"
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+
+	jar {
+		enabled = false
+	}
 }
