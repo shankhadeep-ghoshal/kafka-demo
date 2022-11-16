@@ -1,4 +1,4 @@
-package com.shankhadeepghoshal.learnkafka;
+package com.shankhadeepghoshal;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,2 +1,4 @@
 rootProject.name = 'learnkafka'
+include 'apiproducer'
+include 'consumer'
 
