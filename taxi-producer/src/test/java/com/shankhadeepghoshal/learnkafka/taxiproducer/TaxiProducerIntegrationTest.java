@@ -1,6 +1,6 @@
 package com.shankhadeepghoshal.learnkafka.taxiproducer;
 
-import com.shankhadeepghoshal.learnkafka.taxiproducer.pojos.Taxi;
+import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
 import com.shankhadeepghoshal.learnkafka.taxiproducer.service.TaxiProducerServiceImpl;
 import java.util.concurrent.TimeUnit;
 import lombok.experimental.NonFinal;

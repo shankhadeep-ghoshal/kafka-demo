@@ -1,11 +1,14 @@
 plugins {
 	id "com.diffplug.spotless" version "${spotless}"
+	id "org.springframework.boot" version "${spring_boot}"
+	id "io.spring.dependency-management" version "${spring_deps_mgmt}"
 }
 
-allprojects {
-	apply plugin: 'java'
+subprojects {
 	apply plugin: 'groovy'
 	apply plugin: 'com.diffplug.spotless'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
 	sourceCompatibility = 1.18
 	targetCompatibility = 1.18
@@ -26,10 +29,6 @@ allprojects {
 			googleJavaFormat('1.15.0')
 					.reflowLongStrings()
 					.groupArtifact("com.google.googlejavaformat:google-java-format")
-		}
-		groovyGradle {
-			target '*.gradle' // default target of groovyGradle
-			greclipse()
 		}
 	}
 

@@ -1,11 +1,11 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.5'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web",
+	implementation project(':taxi-model')
+	implementation ("org.springframework.boot:spring-boot-starter-web",
 			"org.springframework.boot:spring-boot-starter-validation")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
 }

@@ -2,3 +2,6 @@ rootProject.name = 'learnkafka'
 
 include 'taxi-producer'
 include 'taxi-processor'
+include 'taxi-model'
+include 'taxi-results'
+

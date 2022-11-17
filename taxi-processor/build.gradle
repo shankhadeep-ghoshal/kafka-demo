@@ -1,0 +1,13 @@
+plugins {
+	id 'java'
+}
+
+dependencies {
+	implementation project(':taxi-model')
+	implementation ("org.springframework.boot:spring-boot-starter")
+	implementation "io.lettuce:lettuce-core:${lettuce_redis}"
+	implementation "org.apache.commons:commons-pool2:${commons_pool2}"
+	implementation "com.fasterxml.jackson.core:jackson-core:${jackson}"
+	implementation "com.fasterxml.jackson.core:jackson-databind:${jackson}"
+	implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
+}

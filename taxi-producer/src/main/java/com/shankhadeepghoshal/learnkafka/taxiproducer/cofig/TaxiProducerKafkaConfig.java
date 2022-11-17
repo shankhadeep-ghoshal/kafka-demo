@@ -1,6 +1,6 @@
 package com.shankhadeepghoshal.learnkafka.taxiproducer.cofig;
 
-import com.shankhadeepghoshal.learnkafka.taxiproducer.pojos.Taxi;
+import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

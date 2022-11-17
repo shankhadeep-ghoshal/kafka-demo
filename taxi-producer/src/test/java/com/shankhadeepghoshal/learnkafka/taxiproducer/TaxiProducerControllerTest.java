@@ -1,7 +1,7 @@
 package com.shankhadeepghoshal.learnkafka.taxiproducer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shankhadeepghoshal.learnkafka.taxiproducer.pojos.Taxi;
+import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
 import lombok.experimental.NonFinal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

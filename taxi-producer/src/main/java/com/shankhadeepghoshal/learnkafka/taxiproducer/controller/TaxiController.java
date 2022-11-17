@@ -1,6 +1,6 @@
 package com.shankhadeepghoshal.learnkafka.taxiproducer.controller;
 
-import com.shankhadeepghoshal.learnkafka.taxiproducer.pojos.Taxi;
+import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
 import com.shankhadeepghoshal.learnkafka.taxiproducer.service.TaxiProducerService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;

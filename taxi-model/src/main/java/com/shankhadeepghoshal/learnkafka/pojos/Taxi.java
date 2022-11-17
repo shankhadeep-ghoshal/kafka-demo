@@ -1,4 +1,4 @@
-package com.shankhadeepghoshal.learnkafka.taxiproducer.pojos;
+package com.shankhadeepghoshal.learnkafka.pojos;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
