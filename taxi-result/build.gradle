@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation project(':taxi-model')
+    implementation "org.springframework.boot:spring-boot-starter"
+}

@@ -1,6 +1,6 @@
-package com.shankhadeepghoshal.learnkafka.taxiproducer.cofig;
+package com.shankhadeepghoshal.learnkafka.taxiprocessor.config;
 
-import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
+import com.shankhadeepghoshal.learnkafka.pojos.TaxiResponse;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -12,11 +12,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
-public class TaxiProducerKafkaConfig {
-
+public class TaxiProcessorKafkaConfig {
   @Bean
   public NewTopic topic(
-      @Value("${kafka.topic.name}") final String topicName,
+      @Value("${kafka.producer.topic}") final String topicName,
       @Value("${kafka.topic.partition}") final Integer partitionCount,
       @Value("${kafka.topic.replication}") final Integer replicationFactor) {
     return TopicBuilder.name(topicName)
@@ -27,13 +26,13 @@ public class TaxiProducerKafkaConfig {
   }
 
   @Bean
-  public KafkaTemplate<Long, Taxi> kafkaTemplate(
-      final ProducerFactory<Long, Taxi> producerFactory) {
+  public KafkaTemplate<Long, TaxiResponse> kafkaTemplate(
+      final ProducerFactory<Long, TaxiResponse> producerFactory) {
     return new KafkaTemplate<>(producerFactory);
   }
 
   @Bean
-  public ProducerFactory<Long, Taxi> producerFactory(final KafkaProperties props) {
-    return new DefaultKafkaProducerFactory<>(props.buildProducerProperties());
+  public ProducerFactory<Long, TaxiResponse> producerFactory(KafkaProperties kafkaProperties) {
+    return new DefaultKafkaProducerFactory<>(kafkaProperties.buildProducerProperties());
   }
 }

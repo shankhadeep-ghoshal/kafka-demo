@@ -1,16 +1,14 @@
 package com.shankhadeepghoshal.learnkafka.taxiprocessor.service;
 
 import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
-import com.shankhadeepghoshal.learnkafka.taxiprocessor.pojos.TaxiEntity;
+import com.shankhadeepghoshal.learnkafka.pojos.TaxiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
@@ -19,8 +17,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Slf4j
 public class KafkaListenerService {
   private static final String OK = "OK";
-  RedisService redisService;
-  KafkaTemplate<Long, TaxiEntity> kafkaTemplate;
+  ProcessTaxiDistanceService processTaxiDistanceService;
+  KafkaTemplate<Long, TaxiResponse> kafkaTemplate;
 
   @Value("${spring.kafka.producer.topic}")
   String producerTopic;
@@ -28,29 +26,27 @@ public class KafkaListenerService {
   @KafkaListener(
       topics = "#{'${spring.kafka.consumer.topic}'}",
       groupId = "${spring.kafka.group.id}")
-  public void singleMessageConsumerWithManualAck(
-      Taxi message,
-      Acknowledgment acknowledgment,
-      @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) {
+  public void singleMessageConsumerWithManualAck(Taxi message, Acknowledgment acknowledgment) {
     try {
-      final var redisResult = redisService.handleRedisStuff(message);
+      final var redisResult = processTaxiDistanceService.calculateTotalDistanceByTaxi(message);
       if (OK.equalsIgnoreCase(redisResult)) {
-        final var latestTaxiData = redisService.getTaxiEntityById(message.id());
+        final var latestTaxiData = processTaxiDistanceService.getTaxiEntityById(message.id());
+        final var taxiResponse = new TaxiResponse(message.id(), latestTaxiData.totalDistance());
         kafkaTemplate
-            .send(producerTopic, latestTaxiData)
+            .send(producerTopic, taxiResponse)
             .addCallback(
-                    new ListenableFutureCallback<>() {
-                      @Override
-                      public void onFailure(Throwable ex) {
-                        log.error("Failed to send to output queue", ex);
-                      }
+                new ListenableFutureCallback<>() {
+                  @Override
+                  public void onFailure(Throwable ex) {
+                    log.error("Failed to send to output queue", ex);
+                  }
 
-                      @Override
-                      public void onSuccess(SendResult<Long, TaxiEntity> result) {
-                        log.info("Sent data to ");
-                        acknowledgment.acknowledge();
-                      }
-                    });
+                  @Override
+                  public void onSuccess(SendResult<Long, TaxiResponse> result) {
+                    log.info("For car {}", result.getProducerRecord().value());
+                    acknowledgment.acknowledge();
+                  }
+                });
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
