@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 public class TaxiDistanceCalculatorUtils {
   public static Double calculateTotalDistanceTravelled(
       final Coordinate previous, final Coordinate current, final Double previousDistance) {
-    return previousDistance + calculateDistance(previous, current);
+    double v = previousDistance + calculateDistance(previous, current);
+    return v;
   }
 
   public static Double calculateDistance(final Coordinate previous, final Coordinate current) {
-    return Math.sqrt(squared(current.x() - previous.x()) + squared(current.y() - previous.y()));
+    double sqrt =
+        Math.sqrt(squared(current.x() - previous.x()) + squared(current.y() - previous.y()));
+    return sqrt;
   }
 
   public static Double squared(final Double a) {

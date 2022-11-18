@@ -23,7 +23,7 @@ public class TaxiController {
   TaxiProducerService service;
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> postTaxiStatus(@Valid @RequestBody Taxi taxi) {
+  public ResponseEntity<String> postTaxiStatus(@Valid @RequestBody final Taxi taxi) {
     try {
       service.sendTaxiToBroker(taxi);
       return ResponseEntity.accepted().body("Request accepted for processing");

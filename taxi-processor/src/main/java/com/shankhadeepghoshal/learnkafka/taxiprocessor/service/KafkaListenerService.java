@@ -4,6 +4,7 @@ import com.shankhadeepghoshal.learnkafka.pojos.Taxi;
 import com.shankhadeepghoshal.learnkafka.pojos.TaxiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -32,8 +33,9 @@ public class KafkaListenerService {
       if (OK.equalsIgnoreCase(redisResult)) {
         final var latestTaxiData = processTaxiDistanceService.getTaxiEntityById(message.id());
         final var taxiResponse = new TaxiResponse(message.id(), latestTaxiData.totalDistance());
+        final var producerRecord = new ProducerRecord<>(producerTopic, message.id(), taxiResponse);
         kafkaTemplate
-            .send(producerTopic, taxiResponse)
+            .send(producerRecord)
             .addCallback(
                 new ListenableFutureCallback<>() {
                   @Override

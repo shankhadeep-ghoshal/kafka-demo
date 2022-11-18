@@ -6,5 +6,15 @@ import org.hibernate.validator.constraints.Range;
 
 public record Taxi(
     @NotNull @Min(1L) Long id,
-    @NotNull @Range(min = -90, max = 90) Double latitude,
-    @NotNull @Range(min = -180, max = 180) Double longitude) {}
+    @NotNull
+        @Range(
+            min = -90,
+            max = 90,
+            message = "Should not be empty and be between 90 and -90 inclusive")
+        Double latitude,
+    @NotNull
+        @Range(
+            min = -180,
+            max = 180,
+            message = "Should not be empty and be between 180 and -180 inclusive")
+        Double longitude) {}

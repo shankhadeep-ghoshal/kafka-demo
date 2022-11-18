@@ -15,7 +15,7 @@ import org.springframework.kafka.core.ProducerFactory;
 public class TaxiProcessorKafkaConfig {
   @Bean
   public NewTopic topic(
-      @Value("${kafka.producer.topic}") final String topicName,
+      @Value("${spring.kafka.producer.topic}") final String topicName,
       @Value("${kafka.topic.partition}") final Integer partitionCount,
       @Value("${kafka.topic.replication}") final Integer replicationFactor) {
     return TopicBuilder.name(topicName)

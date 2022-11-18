@@ -46,8 +46,7 @@ public class TaxiCalculationService {
         objectMapper.readValue(currentTaxiRawData, new TypeReference<TaxiEntity>() {});
     final var previousCoordinates =
         new Coordinate(previousTaxiEntity.latitude(), previousTaxiEntity.longitude());
-    final var currentCoordinates =
-        new Coordinate(previousTaxiEntity.latitude(), previousTaxiEntity.longitude());
+    final var currentCoordinates = new Coordinate(taxi.latitude(), taxi.longitude());
     final var distanceTravelled =
         TaxiDistanceCalculatorUtils.calculateTotalDistanceTravelled(
             previousCoordinates, currentCoordinates, previousTaxiEntity.totalDistance());
